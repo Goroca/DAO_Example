@@ -27,5 +27,21 @@
 	
 	%>
 	</ul>
+	
+<!-- 		<form> -->
+<!-- 		<label for="name"> Name:</label> -->
+<!-- 		<input type="text" id="name" name="name" required> -->
+<!-- 		<br> -->
+<!-- 		<label for="department">Department</label> -->
+<!-- 		<select id="department" name="department"></select> -->
+<!-- 			<option></option> -->
+		
+<!-- 		</select> -->
+<!-- 		<br/> -->
+<!-- 		<label>Gender</label> -->
+<!-- 		<br> -->
+<!-- 		<input type="radio" name="gender" value="MALE"> -->
+<!-- 		<input type="radio" name="gender" value="FEMALE">	 -->
+<!-- 	</form> -->
 </body>
 </html>

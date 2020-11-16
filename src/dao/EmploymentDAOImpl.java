@@ -24,7 +24,7 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 			ResultSet rs = dBConnection.getTableData();
 			
 			while (rs.next()){
-				employments.add(new Employment(rs.getString("id"), rs.getString("name"), Department.valueOf(rs.getString("department")), Gender.valueOf(rs.getString("gender"))));
+				employments.add(new Employment(rs.getInt("id"), rs.getString("name"), Department.valueOf(rs.getString("department")), Gender.valueOf(rs.getString("gender"))));
 			}
 			
 		} catch (ClassNotFoundException | SQLException e) {

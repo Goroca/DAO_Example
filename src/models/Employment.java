@@ -2,13 +2,13 @@ package models;
 
 
 public class Employment {
-	private String id;
+	private int id;
 	private String name;
 	private Department department;
 	private Gender gender;
 
 
-	public Employment(String id, String name, Department department, Gender gender) {
+	public Employment(int id, String name, Department department, Gender gender) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -24,12 +24,12 @@ public class Employment {
 	}
 
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
