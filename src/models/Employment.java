@@ -4,15 +4,15 @@ package models;
 public class Employment {
 	private int id;
 	private String name;
-	private Department department;
+	private int departmentId;
 	private Gender gender;
 
 
-	public Employment(int id, String name, Department department, Gender gender) {
+	public Employment(int id, String name, int departmentId, Gender gender) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.department = department;
+		this.departmentId = departmentId;
 		this.gender = gender;
 		// TODO Auto-generated constructor stub
 	}
@@ -20,7 +20,7 @@ public class Employment {
 
 	@Override
 	public String toString() {
-		return "Employment [id=" + id + ", name=" + name + ", department=" + department + ", gender=" + gender + "]";
+		return "Employment [id=" + id + ", name=" + name + ", departmentId=" + departmentId + ", gender=" + gender + "]";
 	}
 
 
@@ -44,13 +44,13 @@ public class Employment {
 	}
 
 
-	public Department getDepartment() {
-		return department;
+	public int getDepartmentId() {
+		return departmentId;
 	}
 
 
-	public void setDepartment(Department department) {
-		this.department = department;
+	public void setDepartmentId(int departmentId) {
+		this.departmentId = departmentId;
 	}
 
 

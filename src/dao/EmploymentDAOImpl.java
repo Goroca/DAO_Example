@@ -3,12 +3,6 @@ package dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
-
-
-
-
-import models.Department;
 import models.Employment;
 import models.Gender;
 
@@ -24,7 +18,7 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 			ResultSet rs = dBConnection.getTableData();
 			
 			while (rs.next()){
-				employments.add(new Employment(rs.getInt("id"), rs.getString("name"), Department.valueOf(rs.getString("department")), Gender.valueOf(rs.getString("gender"))));
+				employments.add(new Employment(rs.getInt("id"), rs.getString("name"), rs.getInt("departmentId"),Gender.valueOf(rs.getString("gender"))));
 			}
 			
 		} catch (ClassNotFoundException | SQLException e) {
