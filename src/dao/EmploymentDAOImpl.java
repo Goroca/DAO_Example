@@ -6,13 +6,13 @@ import java.util.List;
 import models.*;
 
 public class EmploymentDAOImpl implements EmploymentDAO{
+	List<Employment> employments;
 
 	@Override
-	public List<Employment> list() {
+	public List<Employment> getEmployments() {
 		// TODO Auto-generated method stub
 		DBConnection dBConnection = new DBConnection("carlos", "goroca");
-		List<Employment> employments = new ArrayList<Employment>();
-
+		employments = new ArrayList<Employment>();
 		try {
 			ResultSet rs = dBConnection.getEmploymentTable();
 			
@@ -30,8 +30,16 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 	}
 
 	@Override
-	public void save(Employment student) {
+	public void save(Employment employer) {
 		// TODO Auto-generated method stub
+		DBConnection dBConnection = new DBConnection("carlos", "goroca");
+
+		try {
+			dBConnection.addEmployment(employer);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
@@ -52,5 +60,7 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 
 }

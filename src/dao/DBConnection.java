@@ -72,7 +72,7 @@ public class DBConnection {
 	}
 	
 	public void addEmployment(Employment employer) throws SQLException, ClassNotFoundException {
-		String query = "INSERT INTO `enterprise`.`employment` (`name`, `departmentId`, `gender`) VALUES ('" + employer.getName() + "', '" + employer.getDepartmentId() + "', '" + employer.getGender() + "');";
+		String query = "INSERT INTO `enterprise`.`employment` (`name`, `departmentId`, `gender`) VALUES ('" + employer.getName() + "', '" + employer.getDepartmentId() + "', '" + employer.getGender().toString() + "');";
 		Statement stmt;
 		try {
 			connection = getConnection();

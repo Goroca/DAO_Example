@@ -16,46 +16,39 @@
 	<h1>Patron DAO</h1>
 	<h3>Listado Empleados</h3>
 	<ul>
-	<% 
-		EmploymentDAOImpl daoEmployment = new EmploymentDAOImpl();
-		List<Employment> employments = daoEmployment.list();
-		
-		for (Employment e : employments){
-			%>
-				<li><%= e.getName() %></li>
-			
-			<%
-		}
-		
-	
-	%>
+		<jsp:useBean id="empls" class="dao.EmploymentDAOImpl"></jsp:useBean>
+		<c:forEach items="${empls.employments}" var="employer">
+		<li>
+		<c:out value="${employer.name}"> </c:out>
+		</li>
+		</c:forEach>	
 	</ul>
 	
-		<form>
+		<form action="SaveUpdateController" method="post">
 		<label for="name"> Name:</label>
-		<input type="text" id="name" name="name" required> 
+		<input type="text" id="name" name="name" required>
+		<input type="hidden" value="" name="id"> 
 		<br>
-		<label for="dpto">Department</label>
-		<select id="dpto" name="department">
+		<label for="department">Department</label>
+		<select id="department" name="departmentId" requiered>
 			
+			<option>
+			</option>
 			<jsp:useBean id="dpto" class="dao.DepartmentDAOImpl"></jsp:useBean>
-			<option>
-			</option>
-			
 			<c:forEach items="${dpto.departments}" var="department">
-			<option>
-				<c:out value="${department.departmentName}"> </c:out>
-			</option>
+			<option value="${department.departmentId}"> <c:out value="${department.departmentName}"> </c:out> </option>
 			</c:forEach>
 			
-			
-		
 		</select>
 		<br/>
 		<label>Gender</label>
 		<br>
-		<input type="radio" name="gender" value="MALE">
-		<input type="radio" name="gender" value="FEMALE">	
+		<label for="male"> Male</label>
+		<input type="radio" id="male" name="gender" value="MALE" required>
+		<label for="female"> Female</label>
+		<input type="radio" id="female" name="gender" value="FEMALE" required>
+		<br>
+		<input type="submit" value="Create Employer" > 
 		</form>
 </body>
 </html>
