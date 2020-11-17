@@ -6,7 +6,10 @@ public class Employment {
 	private String name;
 	private int departmentId;
 	private Gender gender;
-
+	
+	public enum Gender {
+		MALE,FEMALE;
+		}
 
 	public Employment(int id, String name, int departmentId, Gender gender) {
 		super();

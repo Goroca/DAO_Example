@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import models.Employment;
+
 public class DBConnection {
 	private Connection connection;
 	private String user;
@@ -37,7 +39,7 @@ public class DBConnection {
 	}
 	
 	//Get all data from the table
-	public ResultSet getTableData() throws SQLException, ClassNotFoundException {
+	public ResultSet getEmploymentTable() throws SQLException, ClassNotFoundException {
 		ResultSet rs = null;
 		String query = "SELECT * FROM enterprise.employment;";
 		Statement stmt;
@@ -45,7 +47,7 @@ public class DBConnection {
 			connection = getConnection();
 			stmt = connection.createStatement();
 			rs = stmt.executeQuery(query);
-		} catch (SQLException  e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}		
@@ -53,6 +55,32 @@ public class DBConnection {
 		return rs;
 	}
 	
+	public ResultSet getDepartmentTable() throws SQLException, ClassNotFoundException {
+		ResultSet rs = null;
+		String query = "SELECT * FROM enterprise.department;";
+		Statement stmt;
+		try {
+			connection = getConnection();
+			stmt = connection.createStatement();
+			rs = stmt.executeQuery(query);
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		
+		return rs;
+	}
 	
-
+	public void addEmployment(Employment employer) throws SQLException, ClassNotFoundException {
+		String query = "INSERT INTO `enterprise`.`employment` (`name`, `departmentId`, `gender`) VALUES ('" + employer.getName() + "', '" + employer.getDepartmentId() + "', '" + employer.getGender() + "');";
+		Statement stmt;
+		try {
+			connection = getConnection();
+			stmt = connection.createStatement();
+			stmt.executeQuery(query);
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+	}
 }

@@ -2,11 +2,17 @@ package models;
 
 public class Department {
 	private int departmentId;
-	private DepartmentEnum departmentEnum;
-	public Department(int departmentId, DepartmentEnum departmentEnum) {
+	private String departmentName;
+//	private DepartmentEnum departmentEnum;
+//	
+//	public enum DepartmentEnum {
+//		RRHH,LOGISTICA, CONTABILIDAD, INFORMATICA;
+//		}
+
+	public Department(int departmentId, String departmentName) {
 		super();
 		this.departmentId = departmentId;
-		this.departmentEnum = departmentEnum;
+		this.departmentName = departmentName;
 	}
 	public int getDepartmentId() {
 		return departmentId;
@@ -14,12 +20,13 @@ public class Department {
 	public void setDepartmentId(int departmentId) {
 		this.departmentId = departmentId;
 	}
-	public DepartmentEnum getDepartmentEnum() {
-		return departmentEnum;
+	public String getDepartmentName() {
+		return departmentName;
 	}
-	public void setDepartmentEnum(DepartmentEnum departmentEnum) {
-		this.departmentEnum = departmentEnum;
+	public void setDepartmentName(String departmentName) {
+		this.departmentName = departmentName;
 	}
-	
-	
+
 }
+	
+	

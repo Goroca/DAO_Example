@@ -3,8 +3,7 @@ package dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import models.Employment;
-import models.Gender;
+import models.*;
 
 public class EmploymentDAOImpl implements EmploymentDAO{
 
@@ -15,10 +14,10 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 		List<Employment> employments = new ArrayList<Employment>();
 
 		try {
-			ResultSet rs = dBConnection.getTableData();
+			ResultSet rs = dBConnection.getEmploymentTable();
 			
 			while (rs.next()){
-				employments.add(new Employment(rs.getInt("id"), rs.getString("name"), rs.getInt("departmentId"),Gender.valueOf(rs.getString("gender"))));
+				employments.add(new Employment(rs.getInt("id"), rs.getString("name"), rs.getInt("departmentId"),Employment.Gender.valueOf(rs.getString("gender"))));
 			}
 			
 		} catch (ClassNotFoundException | SQLException e) {
