@@ -50,9 +50,16 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 	}
 
 	@Override
-	public void update(Employment student) {
+	public void update(Employment employer) {
 		// TODO Auto-generated method stub
-		
+		DBConnection dBConnection = new DBConnection("carlos", "goroca");
+
+		try {
+			dBConnection.editEmployment(employer);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

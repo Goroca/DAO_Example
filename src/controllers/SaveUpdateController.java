@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -47,18 +48,34 @@ public class SaveUpdateController extends HttpServlet {
 		name =	request.getParameter("name");
 		departmentId =	Integer.parseInt(request.getParameter("departmentId"));
 		gender  =	Gender.valueOf(request.getParameter("gender"));
+
 		
 		id = request.getParameter("id") != "" ?
 				Integer.parseInt(request.getParameter("id")) : 0;
 		
-		Employment addEmployer = new Employment(id,name,departmentId,gender);		
-		new EmploymentDAOImpl().save(addEmployer);
 		
 		if (id>0){
 			//Edit Employer
-			System.out.println("Paleto");
+			List<Employment> employments;
+			try {
+				employments = new EmploymentDAOImpl().getEmployments();
+				Employment editEmployer = employments.get(id);
+				editEmployer.setName(name);
+				editEmployer.setGender(gender);
+				editEmployer.setDepartmentId(departmentId);
+				new EmploymentDAOImpl().update(editEmployer);
+
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			System.out.println("Edit Employer");
+			
+			
 		}else{
 			//New Employer
+			Employment addEmployer = new Employment(id,name,departmentId,gender);		
+			new EmploymentDAOImpl().save(addEmployer);
 			System.out.println("New Employer");
 
 		}
