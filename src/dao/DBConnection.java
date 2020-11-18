@@ -77,7 +77,7 @@ public class DBConnection {
 		try {
 			connection = getConnection();
 			stmt = connection.createStatement();
-			stmt.executeQuery(query);
+			stmt.executeUpdate(query);
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -7,7 +7,7 @@ import models.Employment;
 
 public interface EmploymentDAO {
 	
-	public List<Employment> getEmployments();
+	public List<Employment> getEmployments() throws Exception;
 
 	public void save(Employment student);
 

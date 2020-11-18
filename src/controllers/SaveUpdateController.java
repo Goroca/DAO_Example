@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.EmploymentDAOImpl;
+import models.Employment;
 import models.Employment.Gender;
 
 /**
@@ -48,7 +50,10 @@ public class SaveUpdateController extends HttpServlet {
 		
 		id = request.getParameter("id") != "" ?
 				Integer.parseInt(request.getParameter("id")) : 0;
-
+		
+		Employment addEmployer = new Employment(id,name,departmentId,gender);		
+		new EmploymentDAOImpl().save(addEmployer);
+		
 		if (id>0){
 			//Edit Employer
 			System.out.println("Paleto");
@@ -57,6 +62,7 @@ public class SaveUpdateController extends HttpServlet {
 			System.out.println("New Employer");
 
 		}
+		
 	}
 
 }
