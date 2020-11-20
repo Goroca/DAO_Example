@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -72,13 +73,16 @@ public class DBConnection {
 	}
 
 	public void addEmployment(Employment employer) throws SQLException, ClassNotFoundException {
-		String query = "INSERT INTO `enterprise`.`employment` (`name`, `departmentId`, `gender`) VALUES ('" + employer.getName() + "', '" + employer.getDepartmentId() + "', '"
-				+ employer.getGender().toString() + "');";
-		Statement stmt;
+		String query = "INSERT INTO `enterprise`.`employment` (`name`, `departmentId`, `gender`) VALUES (?,?,?);";
+		PreparedStatement stmt;
 		try {
 			connection = getConnection();
-			stmt = connection.createStatement();
-			stmt.executeUpdate(query);
+			stmt = connection.prepareStatement(query);
+			stmt.setString(1, employer.getName());
+			stmt.setInt(2, employer.getDepartmentId());
+			stmt.setString(1, employer.getGender().toString());
+
+			stmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,13 +90,16 @@ public class DBConnection {
 	}
 
 	public void editEmployment(Employment employer) throws SQLException, ClassNotFoundException {
-		String query = "UPDATE `enterprise`.`employment` SET `name` = '" + employer.getName() + "', `departmentId` = '" + employer.getDepartmentId() + "', `gender` = '" + employer.getGender()
-				+ "' WHERE (`id` = '5');";
-		Statement stmt;
+		String query = "UPDATE `enterprise`.`employment` SET `name` = ?, `departmentId` = ?, `gender` = ? WHERE (`id` = ?);";
+		PreparedStatement stmt;
 		try {
 			connection = getConnection();
-			stmt = connection.createStatement();
-			stmt.executeUpdate(query);
+			stmt = connection.prepareStatement(query);
+			stmt.setString(1, employer.getName());
+			stmt.setInt(2, employer.getDepartmentId());
+			stmt.setString(1, employer.getGender().toString());
+
+			stmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

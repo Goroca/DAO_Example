@@ -17,10 +17,10 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 		try {
 			ResultSet rs = dBConnection.getEmploymentTable();
 			
-			if (rs.getString("gender") != "MALE" || rs.getString("gender") != "FEMALE" ){
-			    throw new Exception("DB Corruption -> Unvalid Gender");
-			    
-			}
+//			if (rs.getString("gender") != "MALE" || rs.getString("gender") != "FEMALE" ){
+//			    throw new Exception("DB Corruption -> Unvalid Gender");
+//			    
+//			}
 			
 			while (rs.next()){
 				employments.add(new Employment(rs.getInt("id"), rs.getString("name"), rs.getInt("departmentId"),Employment.Gender.valueOf(rs.getString("gender"))));

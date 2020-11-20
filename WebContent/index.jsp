@@ -18,8 +18,10 @@
 	<ul>
 		<jsp:useBean id="empls" class="dao.EmploymentDAOImpl"></jsp:useBean>
 		<c:forEach items="${empls.employments}" var="employer">
-		<li>
+		<li> 
+		<a href="SaveUpdateController?idEmplUpdate=${employer.id}">
 		<c:out value="${employer.name}"> </c:out>
+		</a>
 		</li>
 		</c:forEach>	
 	</ul>

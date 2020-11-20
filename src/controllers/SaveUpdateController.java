@@ -79,7 +79,6 @@ public class SaveUpdateController extends HttpServlet {
 			System.out.println("New Employer");
 
 		}
-		
 	}
 
 }
