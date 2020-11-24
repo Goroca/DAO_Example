@@ -1,8 +1,6 @@
 package controllers;
 
 import java.io.IOException;
-import java.util.List;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,6 +31,11 @@ public class SaveUpdateController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		int id= Integer.parseInt(request.getParameter("idEmplUpdate"));
+		
+		Employment employer = new EmploymentDAOImpl().seachById(id);
+		request.setAttribute("employer", employer);
+		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
 
 	/**
@@ -53,16 +56,10 @@ public class SaveUpdateController extends HttpServlet {
 		id = request.getParameter("id") != "" ?
 				Integer.parseInt(request.getParameter("id")) : 0;
 		
-		
 		if (id>0){
 			//Edit Employer
-			List<Employment> employments;
 			try {
-				employments = new EmploymentDAOImpl().getEmployments();
-				Employment editEmployer = employments.get(id);
-				editEmployer.setName(name);
-				editEmployer.setGender(gender);
-				editEmployer.setDepartmentId(departmentId);
+				Employment editEmployer = new Employment(id,name,departmentId, gender);
 				new EmploymentDAOImpl().update(editEmployer);
 
 			} catch (Exception e) {
@@ -79,6 +76,7 @@ public class SaveUpdateController extends HttpServlet {
 			System.out.println("New Employer");
 
 		}
+		response.sendRedirect("index.jsp");
 	}
 
 }

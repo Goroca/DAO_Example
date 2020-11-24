@@ -55,6 +55,24 @@ public class DBConnection {
 
 		return rs;
 	}
+	public ResultSet getById(int id) throws SQLException, ClassNotFoundException {
+		ResultSet rs = null;
+		String query = "SELECT * FROM enterprise.employment WHERE id=?;";
+		PreparedStatement stmt;
+		
+		try {
+			connection = getConnection();
+			stmt = connection.prepareStatement(query);
+			stmt.setInt(1, id);
+			rs = stmt.executeQuery();
+			
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return rs;
+	}
 
 	public ResultSet getDepartmentTable() throws SQLException, ClassNotFoundException {
 		ResultSet rs = null;
@@ -80,7 +98,7 @@ public class DBConnection {
 			stmt = connection.prepareStatement(query);
 			stmt.setString(1, employer.getName());
 			stmt.setInt(2, employer.getDepartmentId());
-			stmt.setString(1, employer.getGender().toString());
+			stmt.setString(3, employer.getGender().toString());
 
 			stmt.executeUpdate();
 		} catch (SQLException | ClassNotFoundException e) {
@@ -94,16 +112,35 @@ public class DBConnection {
 		PreparedStatement stmt;
 		try {
 			connection = getConnection();
+			connection.setAutoCommit(false);
 			stmt = connection.prepareStatement(query);
 			stmt.setString(1, employer.getName());
 			stmt.setInt(2, employer.getDepartmentId());
-			stmt.setString(1, employer.getGender().toString());
-
+			stmt.setString(3, employer.getGender().toString());
+			stmt.setInt(4, employer.getId());
 			stmt.executeUpdate();
+			connection.commit();
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			connection.setAutoCommit(true);
+		}
+	}
+	public void deteleEmployer(int idEmployer) throws SQLException, ClassNotFoundException {
+		String query = "	DELETE FROM `enterprise`.`employment` WHERE (`id` = ?);";
+		PreparedStatement stmt;
+		try {
+			connection = getConnection();
+			stmt = connection.prepareStatement(query);
+			stmt.setInt(1, idEmployer);
+			stmt.executeUpdate();
+			
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+
 
 }

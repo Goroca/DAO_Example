@@ -18,7 +18,7 @@
 	<ul>
 		<jsp:useBean id="empls" class="dao.EmploymentDAOImpl"></jsp:useBean>
 		<c:forEach items="${empls.employments}" var="employer">
-		<li> 
+		<li title="Editar Empleado"> 
 		<a href="SaveUpdateController?idEmplUpdate=${employer.id}">
 		<c:out value="${employer.name}"> </c:out>
 		</a>
@@ -28,30 +28,35 @@
 	
 		<form action="SaveUpdateController" method="post">
 		<label for="name"> Name:</label>
-		<input type="text" id="name" name="name" required>
-		<input type="hidden" value="" name="id"> 
+		<input type="text" id="name" name="name" value="${employer.name}" required>
+		<input type="hidden" name="id" value="${employer.id}"> 
 		<br>
 		<label for="department">Department</label>
 		<select id="department" name="departmentId" requiered>
-			
 			<option>
 			</option>
 			<jsp:useBean id="dpto" class="dao.DepartmentDAOImpl"></jsp:useBean>
 			<c:forEach items="${dpto.departments}" var="department">
-			<option value="${department.departmentId}"> <c:out value="${department.departmentName}"> </c:out> </option>
+
+				<option value="${department.departmentId}" 
+					<c:if  test="${department.departmentId eq employer.departmentId}"> selected="selected" </c:if>>
+					<c:out value="${department.departmentName}"> </c:out> </option>
+
 			</c:forEach>
-			
 		</select>
 		<br/>
 		<label>Gender</label>
 		<br>
 		<label for="male"> Male</label>
-		<input type="radio" id="male" name="gender" value="MALE" required>
+		<input type="radio" id="male" name="gender" value="MALE" required="required" <c:if test="${employer.gender eq 'MALE'}">checked </c:if>>
 		<label for="female"> Female</label>
-		<input type="radio" id="female" name="gender" value="FEMALE" required>
+		<input type="radio" id="female" name="gender" value="FEMALE" required <c:if test="${employer.gender eq 'FEMALE'}">checked </c:if>>
+		<br>
+		<label for="phoneNumber">Phone Number</label>
+		<input type="text" id="phoneNumber" name="phoneNumber" required>
 		<br>
 		<br>
-		<input type="submit" value="Create Employer" > 
+		<input type="submit" value="Create/Update Employer" > 
 		</form>
 </body>
 </html>

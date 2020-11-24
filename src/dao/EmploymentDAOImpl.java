@@ -8,6 +8,7 @@ import models.*;
 
 public class EmploymentDAOImpl implements EmploymentDAO{
 	List<Employment> employments;
+	Employment employer;
 
 	@Override
 	public List<Employment> getEmployments() throws Exception {
@@ -64,8 +65,21 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 
 	@Override
 	public Employment seachById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		DBConnection dBConnection = new DBConnection("carlos", "goroca");
+		try {
+			ResultSet rs = dBConnection.getById(id);			
+			
+			if(rs.next())
+				employer = new Employment(rs.getInt("id"), rs.getString("name"), rs.getInt("departmentId"),Employment.Gender.valueOf(rs.getString("gender")));
+			
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return employer;
 	}
 
 	@Override
