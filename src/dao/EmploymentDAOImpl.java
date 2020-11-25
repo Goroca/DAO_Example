@@ -85,6 +85,15 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 	@Override
 	public void delete(int id) {
 		// TODO Auto-generated method stub
+		DBConnection dBConnection = new DBConnection("carlos", "goroca");
+		try {
+			dBConnection.deleteEmployer(id);
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		
 	}
 	

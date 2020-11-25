@@ -56,7 +56,8 @@
 		<input type="text" id="phoneNumber" name="phoneNumber" placeholder="Separar los telefonos con punto y coma" required>
 		<br>
 		<br>
-		<input type="submit" value="Create/Update Employer" > 
+		<input type="submit" name="newAndUpdate" value="Create/Update Employer" > 
+		<c:if test="${employer.id > 0}"> <input type="submit" name="delete" value="Delete Employer" > </c:if>
 		</form>
 </body>
 </html>
