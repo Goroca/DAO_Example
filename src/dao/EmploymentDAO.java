@@ -13,10 +13,11 @@ public interface EmploymentDAO {
 
 	public void update(Employment employer);
 
-	public Employment seachById(int id);
+	public Employment seachById(int id) throws Exception;
 
 	public void delete(int id);
 
+	List<String> getPhoneNumbes(int idEmployer) throws Exception;
 
 
 }

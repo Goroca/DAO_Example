@@ -9,7 +9,6 @@ import java.sql.Statement;
 import java.util.Properties;
 
 import models.Employment;
-import models.PhoneNumber;
 
 public class DBConnection {
 	private Connection connection;
@@ -115,12 +114,12 @@ public class DBConnection {
 
 			}
 
-			for (PhoneNumber phoneNumber : employer.getPhoneNumber()) {
+			for (String phoneNumber : employer.getPhoneNumber()) {
 				String query2 = "INSERT INTO `enterprise`.`phoneNumbers` (`employerId`, `number`) VALUES (?,?);";
 				PreparedStatement stmt2;
 				stmt2 = connection.prepareStatement(query2);
 				stmt2.setInt(1, lastId.intValue());
-				stmt2.setString(2, phoneNumber.getNumber());
+				stmt2.setString(2, phoneNumber);
 				stmt2.executeUpdate();
 			}
 
@@ -135,17 +134,34 @@ public class DBConnection {
 	}
 
 	public void editEmployment(Employment employer) throws SQLException, ClassNotFoundException {
-		String query = "UPDATE `enterprise`.`employment` SET `name` = ?, `departmentId` = ?, `gender` = ? WHERE (`id` = ?);";
-		PreparedStatement stmt;
+		String query1 = "UPDATE `enterprise`.`employment` SET `name` = ?, `departmentId` = ?, `gender` = ? WHERE (`id` = ?);";
+		PreparedStatement stmt1;
 		try {
 			connection = getConnection();
 			connection.setAutoCommit(false);
-			stmt = connection.prepareStatement(query);
-			stmt.setString(1, employer.getName());
-			stmt.setInt(2, employer.getDepartmentId());
-			stmt.setString(3, employer.getGender().toString());
-			stmt.setInt(4, employer.getId());
-			stmt.executeUpdate();
+			stmt1 = connection.prepareStatement(query1);
+			stmt1.setString(1, employer.getName());
+			stmt1.setInt(2, employer.getDepartmentId());
+			stmt1.setString(3, employer.getGender().toString());
+			stmt1.setInt(4, employer.getId());
+			stmt1.executeUpdate();
+			
+			PreparedStatement stmt2;
+			String query2 = "DELETE FROM `enterprise`.`phoneNumbers` WHERE (`employerId` = ?);";
+			stmt2 = connection.prepareStatement(query2);
+			stmt2.setInt(1, employer.getId());
+			stmt2.executeUpdate();
+			
+			for (String phoneNumber : employer.getPhoneNumber()) {
+				String query3 = "INSERT INTO `enterprise`.`phoneNumbers` (`employerId`, `number`) VALUES (?,?);";
+				PreparedStatement stmt3;
+				stmt3 = connection.prepareStatement(query3);
+				stmt3.setInt(1, employer.getId());
+				stmt3.setString(2, phoneNumber);
+				stmt3.executeUpdate();
+			}
+			
+			
 			connection.commit();
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -156,10 +172,10 @@ public class DBConnection {
 	}
 
 	public void deleteEmployer(int idEmployer) throws SQLException, ClassNotFoundException {
-		String query1 = "DELETE FROM `enterprise`.`employment` WHERE (`id` = ?);";
 		PreparedStatement stmt1;
-		String query2 = "DELETE FROM `enterprise`.`phoneNumbers` WHERE (`employerId` = ?);";
+		String query1 = "DELETE FROM `enterprise`.`phoneNumbers` WHERE (`employerId` = ?);";
 		PreparedStatement stmt2;
+		String query2 = "DELETE FROM `enterprise`.`employment` WHERE (`id` = ?);";
 
 		try {
 			connection = getConnection();
@@ -180,5 +196,28 @@ public class DBConnection {
 			connection.setAutoCommit(true);
 		}
 	}
+	
+	public ResultSet getPhoneNumbers(int idEmployer) throws SQLException, ClassNotFoundException {
+		String query = "SELECT * FROM `enterprise`.`phoneNumbers` WHERE (`employerId` = ?);";
+		
+
+		PreparedStatement stmt;
+		ResultSet rs = null;
+
+		try {
+			connection = getConnection();
+			connection.setAutoCommit(false);
+			stmt = connection.prepareStatement(query);
+			stmt.setInt(1, idEmployer);
+			rs = stmt.executeQuery();
+
+			connection.commit();
+		} catch (SQLException | ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return rs;
+	}
+
 
 }

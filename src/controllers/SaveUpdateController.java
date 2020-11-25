@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import dao.EmploymentDAOImpl;
 import models.Employment;
 import models.Employment.Gender;
-import models.PhoneNumber;
 
 /**
  * Servlet implementation class SaveUpdateController
@@ -39,7 +38,13 @@ public class SaveUpdateController extends HttpServlet {
 		// TODO Auto-generated method stub
 		int id = Integer.parseInt(request.getParameter("idEmplUpdate"));
 
-		Employment employer = new EmploymentDAOImpl().seachById(id);
+		Employment employer = new Employment();
+		try {
+			employer = new EmploymentDAOImpl().seachById(id);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		request.setAttribute("employer", employer);
 		request.getRequestDispatcher("index.jsp").forward(request, response);
 	}
@@ -57,7 +62,7 @@ public class SaveUpdateController extends HttpServlet {
 			int departmentId;
 			Gender gender;
 			String phoneNumber;
-			List<PhoneNumber> phoneNumberList = new ArrayList<PhoneNumber>();
+			List<String> phoneNumberList = new ArrayList<String>();
 
 			name = request.getParameter("name");
 			departmentId = Integer.parseInt(request.getParameter("departmentId"));
@@ -67,7 +72,7 @@ public class SaveUpdateController extends HttpServlet {
 
 			List<String> numberList = Arrays.asList(phoneNumber.split(";"));
 			for (String string : numberList) {
-				phoneNumberList.add(new PhoneNumber(0, id, string));
+				phoneNumberList.add(string);
 			}
 
 			if (id > 0) {

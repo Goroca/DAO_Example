@@ -53,7 +53,7 @@
 		<input type="radio" id="female" name="gender" value="FEMALE" required <c:if test="${employer.gender eq 'FEMALE'}">checked </c:if>>
 		<br>
 		<label for="phoneNumber">Phone Number</label>
-		<input type="text" id="phoneNumber" name="phoneNumber" placeholder="Separar los telefonos con punto y coma" required>
+		<input type="text" id="phoneNumber" name="phoneNumber" value="${employer.phoneNumbersList}"  placeholder="Separar los telefonos con punto y coma" required>
 		<br>
 		<br>
 		<input type="submit" name="newAndUpdate" value="Create/Update Employer" > 

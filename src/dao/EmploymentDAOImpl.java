@@ -7,9 +7,9 @@ import java.util.List;
 import models.*;
 
 public class EmploymentDAOImpl implements EmploymentDAO{
-	List<Employment> employments;
-	Employment employer;
-
+	private List<Employment> employments;
+	private Employment employer;
+	
 	@Override
 	public List<Employment> getEmployments() throws Exception {
 		// TODO Auto-generated method stub
@@ -18,10 +18,7 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 		try {
 			ResultSet rs = dBConnection.getEmploymentTable();
 			
-//			if (rs.getString("gender") != "MALE" || rs.getString("gender") != "FEMALE" ){
-//			    throw new Exception("DB Corruption -> Unvalid Gender");
-//			    
-//			}
+			
 			
 			while (rs.next()){
 				employments.add(new Employment(rs.getInt("id"), rs.getString("name"), rs.getInt("departmentId"),Employment.Gender.valueOf(rs.getString("gender"))));
@@ -64,14 +61,15 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 	}
 
 	@Override
-	public Employment seachById(int id) {
+	public Employment seachById(int id) throws Exception {
 		DBConnection dBConnection = new DBConnection("carlos", "goroca");
 		try {
 			ResultSet rs = dBConnection.getById(id);			
 			
-			if(rs.next())
-				employer = new Employment(rs.getInt("id"), rs.getString("name"), rs.getInt("departmentId"),Employment.Gender.valueOf(rs.getString("gender")));
-			
+			if(rs.next()){
+				List<String> phoneNumbers = getPhoneNumbes(rs.getInt("id"));
+				employer = new Employment(rs.getInt("id"), rs.getString("name"), rs.getInt("departmentId"),Employment.Gender.valueOf(rs.getString("gender")),phoneNumbers);
+			}
 			
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -97,6 +95,25 @@ public class EmploymentDAOImpl implements EmploymentDAO{
 		
 	}
 	
+	@Override
+	public List<String> getPhoneNumbes(int idEmployer) throws Exception {
+		// TODO Auto-generated method stub
+		DBConnection dBConnection = new DBConnection("carlos", "goroca");
+		List<String> phoneNumbers = new ArrayList<String>();
+		try {
+			ResultSet rs = dBConnection.getPhoneNumbers(idEmployer);
+						
+			while (rs.next()){
+				phoneNumbers.add(rs.getString("number"));
+			}
+			
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+				
+		return phoneNumbers;
+	}
 	
 
 }

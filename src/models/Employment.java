@@ -8,11 +8,19 @@ public class Employment {
 	private String name;
 	private int departmentId;
 	private Gender gender;
-	private List<PhoneNumber> phoneNumber;
-	
+	private List<String> phoneNumbers;
+	private String phoneNumbersList;
+
 	public enum Gender {
 		MALE,FEMALE;
 		}
+
+	
+	public Employment() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
 
 	public Employment(int id, String name, int departmentId, Gender gender) {
 		super();
@@ -24,13 +32,13 @@ public class Employment {
 	}
 
 
-	public Employment(int id, String name, int departmentId, Gender gender, List<PhoneNumber> phoneNumber) {
+	public Employment(int id, String name, int departmentId, Gender gender, List<String> phoneNumber) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.departmentId = departmentId;
 		this.gender = gender;
-		this.phoneNumber = phoneNumber;
+		this.phoneNumbers = phoneNumber;
 	}
 
 
@@ -81,14 +89,21 @@ public class Employment {
 	}
 
 
-	public List<PhoneNumber> getPhoneNumber() {
-		return phoneNumber;
+	public List<String> getPhoneNumber() {
+		return phoneNumbers;
 	}
 
 
-	public void setPhoneNumber(List<PhoneNumber> phoneNumber) {
-		this.phoneNumber = phoneNumber;
+	public void setPhoneNumber(List<String> phoneNumber) {
+		this.phoneNumbers = phoneNumber;
 	}
 	
-	
+	public String getPhoneNumbersList(){
+		phoneNumbersList = "";
+		for (String string : phoneNumbers) {
+			phoneNumbersList = phoneNumbersList + string + ";";
+			
+		}
+		return phoneNumbersList;
+	}
 }
