@@ -9,9 +9,9 @@ public interface EmploymentDAO {
 	
 	public List<Employment> getEmployments() throws Exception;
 
-	public void save(Employment student);
+	public void save(Employment employer);
 
-	public void update(Employment student);
+	public void update(Employment employer);
 
 	public Employment seachById(int id);
 

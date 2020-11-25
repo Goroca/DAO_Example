@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.Properties;
 
 import models.Employment;
+import models.PhoneNumber;
 
 public class DBConnection {
 	private Connection connection;
@@ -91,19 +92,45 @@ public class DBConnection {
 	}
 
 	public void addEmployment(Employment employer) throws SQLException, ClassNotFoundException {
-		String query = "INSERT INTO `enterprise`.`employment` (`name`, `departmentId`, `gender`) VALUES (?,?,?);";
-		PreparedStatement stmt;
+		String query1 = "INSERT INTO `enterprise`.`employment` (`name`, `departmentId`, `gender`) VALUES (?,?,?);";
+		PreparedStatement stmt1;
+		int queryResult;
+		Long lastId = null;
+
+
 		try {
 			connection = getConnection();
-			stmt = connection.prepareStatement(query);
-			stmt.setString(1, employer.getName());
-			stmt.setInt(2, employer.getDepartmentId());
-			stmt.setString(3, employer.getGender().toString());
+			connection.setAutoCommit(false);
 
-			stmt.executeUpdate();
+			stmt1 = connection.prepareStatement(query1,Statement.RETURN_GENERATED_KEYS);
+			stmt1.setString(1, employer.getName());
+			stmt1.setInt(2, employer.getDepartmentId());
+			stmt1.setString(3, employer.getGender().toString());
+			queryResult = stmt1.executeUpdate();
+			
+			if (queryResult != 0){
+				ResultSet generatedKey = stmt1.getGeneratedKeys();
+				if (generatedKey.next())
+					lastId = generatedKey.getLong(1);
+				
+			}
+			
+			for (PhoneNumber phoneNumber : employer.getPhoneNumber()) {
+				String query2 = "INSERT INTO `enterprise`.`phoneNumbers` (`employerId`, `number`) VALUES (?,?);";
+				PreparedStatement stmt2;
+				stmt2 = connection.prepareStatement(query2);
+				stmt2.setInt(1, lastId.intValue());
+				stmt2.setString(2, phoneNumber.getNumber());
+				stmt2.executeUpdate();
+			}
+
+			connection.commit();
+
 		} catch (SQLException | ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			connection.setAutoCommit(true);
 		}
 	}
 
@@ -127,8 +154,8 @@ public class DBConnection {
 			connection.setAutoCommit(true);
 		}
 	}
-	public void deteleEmployer(int idEmployer) throws SQLException, ClassNotFoundException {
-		String query = "	DELETE FROM `enterprise`.`employment` WHERE (`id` = ?);";
+	public void deleteEmployer(int idEmployer) throws SQLException, ClassNotFoundException {
+		String query = "DELETE FROM `enterprise`.`employment` WHERE (`id` = ?);";
 		PreparedStatement stmt;
 		try {
 			connection = getConnection();
